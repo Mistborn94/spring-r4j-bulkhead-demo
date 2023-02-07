@@ -36,11 +36,10 @@ class BulkheadEnabledTests {
 
     @Test
     void bulkheadEnabled() {
-        bulkheadProvider.configure(builder -> builder.bulkheadConfig(BulkheadConfig.custom()
-                .maxConcurrentCalls(1).build()), CBID);
-        var task = new InterruptableTask();
+        assertNotNull(bulkheadProvider);
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create(CBID);
 
+        var task = new InterruptableTask();
         var ex = assertThrows(NoFallbackAvailableException.class, () -> {
             circuitBreaker.run(() -> task.run(10_000));
         });

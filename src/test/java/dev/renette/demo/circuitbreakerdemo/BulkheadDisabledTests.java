@@ -30,11 +30,11 @@ class BulkheadDisabledTests {
 
     @Test
     void bulkheadDisabled() {
-        var task = new InterruptableTask();
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create(CBID);
 
+        var task = new InterruptableTask();
         var ex = assertThrows(NoFallbackAvailableException.class, () -> {
-            circuitBreaker.run(() -> task.run(5_000));
+            circuitBreaker.run(() -> task.run(10_000));
         });
 
         assertTrue(ex.getCause() instanceof TimeoutException, "Timeout exception thrown");
